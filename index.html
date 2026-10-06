@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Podcast Episode Outline & Show Notes Template</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 py-8 px-4">
+  <div class="max-w-3xl mx-auto">
+    <header class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-orange-800 mb-2">Podcast Episode Planner</h1>
+      <p class="text-orange-600">Outline, Show Notes & Export Tool</p>
+    </header>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Episode Details</h2>
+      <div class="space-y-4">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="ep-number" class="block text-sm font-medium text-gray-600 mb-1">Episode Number</label>
+            <input type="number" id="ep-number" min="1" placeholder="e.g. 42" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" aria-label="Episode number" />
+          </div>
+          <div>
+            <label for="ep-date" class="block text-sm font-medium text-gray-600 mb-1">Publish Date</label>
+            <input type="date" id="ep-date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" aria-label="Episode publish date" />
+          </div>
+        </div>
+
+        <div>
+          <label for="ep-title" class="block text-sm font-medium text-gray-600 mb-1">Episode Title <span class="text-red-400">*</span></label>
+          <input type="text" id="ep-title" maxlength="120" placeholder="e.g. How to Build a Morning Routine That Sticks" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" aria-label="Episode title" />
+          <p class="text-xs text-gray-400 mt-1">Recommended: 60–70 characters for search visibility</p>
+        </div>
+
+        <div>
+          <label for="intro-hook" class="block text-sm font-medium text-gray-600 mb-1">Intro Hook <span class="text-gray-400 font-normal">(target: 30–60 sec / ~75–150 words)</span></label>
+          <textarea id="intro-hook" rows="3" placeholder="Open with a compelling question, story, or stat that grabs the listener..." class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-y" aria-label="Intro hook text"></textarea>
+          <p id="hook-count" class="text-xs text-gray-400 mt-1">0 words</p>
+        </div>
+
+        <div>
+          <label for="guest-name" class="block text-sm font-medium text-gray-600 mb-1">Guest Name <span class="text-gray-400 font-normal">(leave blank for solo)</span></label>
+          <input type="text" id="guest-name" placeholder="e.g. Dr. Alex Rivera" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" aria-label="Guest name" />
+        </div>
+
+        <div>
+          <label for="guest-bio" class="block text-sm font-medium text-gray-600 mb-1">Guest Bio / Intro <span class="text-gray-400 font-normal">(target: 50–100 words)</span></label>
+          <textarea id="guest-bio" rows="2" placeholder="Brief professional background and why they're on this episode..." class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-y" aria-label="Guest bio and introduction"></textarea>
+          <p id="bio-count" class="text-xs text-gray-400 mt-1">0 words</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-2">Segments <span class="text-red-400">*</span> <span class="text-gray-400 font-normal">(add 2–5 segments)</span></label>
+          <div id="segments-container" class="space-y-3"></div>
+          <button id="add-segment-btn" class="mt-3 flex items-center gap-2 text-sm text-orange-600 hover:text-orange-800 font-medium focus:outline-none focus:underline" aria-label="Add a new segment">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+            Add Segment
+          </button>
+        </div>
+
+        <div>
+          <label for="cta" class="block text-sm font-medium text-gray-600 mb-1">Call to Action <span class="text-gray-400 font-normal">(target: 20–40 words)</span></label>
+          <textarea id="cta" rows="2" placeholder="e.g. Subscribe, leave a review, follow us on social, or visit our website at..." class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-y" aria-label="Call to action text"></textarea>
+          <p id="cta-count" class="text-xs text-gray-400 mt-1">0 words</p>
+        </div>
+
+        <div>
+          <label for="show-links" class="block text-sm font-medium text-gray-600 mb-1">Links & Resources <span class="text-gray-400 font-normal">(one per line)</span></label>
+          <textarea id="show-links" rows="3" placeholder="https://example.com — Description of resource" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-y" aria-label="Links and resources, one per line"></textarea>
+        </div>
+
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button id="preview-btn" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2" aria-label="Generate show notes preview">
+          Generate Preview
+        </button>
+        <button id="save-btn" class="px-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" aria-label="Save draft">
+          Save Draft
+        </button>
+      </div>
+    </div>
+
+    <div id="output-section" class="hidden bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-700">Show Notes Preview</h2>
+        <div class="flex gap-2">
+          <button id="export-md-btn" class="text-sm bg-orange-100 hover:bg-orange-200 text-orange-700 font-medium px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400" aria-label="Export as Markdown">
+            Export Markdown
+          </button>
+          <button id="export-txt-btn" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400" aria-label="Export as plain text">
+            Export Text
+          </button>
+        </div>
+      </div>
+      <div id="preview-content" class="prose prose-sm max-w-none text-gray-700 whitespace-pre-wrap font-mono text-xs bg-gray-50 rounded-lg p-4 overflow-auto max-h-[600px]" aria-live="polite"></div>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      let segmentCount = 0;
+
+      function wordCount(text) {
+        return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+      }
+
+      function attachWC(inputId, countId, min, max) {
+        const el = document.getElementById(inputId);
+        const cntEl = document.getElementById(countId);
+        function update() {
+          const wc = wordCount(el.value);
+          const color = wc < min ? 'text-red-400' : wc > max ? 'text-yellow-600' : 'text-green-600';
+          cntEl.className = 'text-xs mt-1 ' + color;
+          cntEl.textContent = wc + ' words (target: ' + min + '–' + max + ')';
+        }
+        el.addEventListener('input', update);
+        update();
+      }
+
+      attachWC('intro-hook', 'hook-count', 75, 150);
+      attachWC('guest-bio', 'bio-count', 50, 100);
+      attachWC('cta', 'cta-count', 20, 40);
+
+      function addSegment() {
+        segmentCount++;
+        const n = segmentCount;
+        const container = document.getElementById('segments-container');
+        const wrap = document.createElement('div');
+        wrap.className = 'border border-gray-200 rounded-xl p-4 space-y-2 relative';
+        wrap.setAttribute('data-segment', n);
+
+        const topRow = document.createElement('div');
+        topRow.className = 'flex gap-2 items-start';
+
+        const headerInput = document.createElement('input');
+        headerInput.type = 'text';
+        headerInput.placeholder = 'Segment ' + n + ' title (e.g. "The Science Behind Habits")';
+        headerInput.className = 'flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400';
+        headerInput.setAttribute('aria-label', 'Segment ' + n + ' header');
+        headerInput.dataset.field = 'header';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = '✕';
+        removeBtn.className = 'text-gray-400 hover:text-red-500 text-sm px-2 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 rounded';
+        removeBtn.setAttribute('aria-label', 'Remove segment ' + n);
+        removeBtn.addEventListener('click', () => { container.removeChild(wrap); });
+
+        topRow.appendChild(headerInput);
+        topRow.appendChild(removeBtn);
+
+        const pointsLabel = document.createElement('label');
+        pointsLabel.className = 'text-xs font-medium text-gray-500';
+        pointsLabel.textContent = 'Key talking points (one per line, target: 3–5 points)';
+
+        const pointsTA = document.createElement('textarea');
+        pointsTA.rows = 3;
+        pointsTA.placeholder = 'Point 1\nPoint 2\nPoint 3';
+        pointsTA.className = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-y';
+        pointsTA.setAttribute('aria-label', 'Segment ' + n + ' talking points');
+        pointsTA.dataset.field = 'points';
+
+        const durationLabel = document.createElement('label');
+        durationLabel.className = 'text-xs font-medium text-gray-500';
+        durationLabel.textContent = 'Target duration (minutes)';
+
+        const durationInput = document.createElement('input');
+        durationInput.type = 'number';
+        durationInput.min = 1;
+        durationInput.max = 60;
+        durationInput.placeholder = 'e.g. 10';
+        durationInput.className = 'w-24 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400';
+        durationInput.setAttribute('aria-label', 'Segment ' + n + ' duration in minutes');
+        durationInput.dataset.field = 'duration';
+
+        wrap.appendChild(topRow);
+        wrap.appendChild(pointsLabel);
+        wrap.appendChild(pointsTA);
+        wrap.appendChild(durationLabel);
+        wrap.appendChild(durationInput);
+
+        container.appendChild(wrap);
+      }
+
+      document.getElementById('add-segment-btn').addEventListener('click', addSegment);
+      addSegment();
+      addSegment();
+
+      function getFormData() {
+        const segments = [];
+        document.querySelectorAll('#segments-container [data-segment]').forEach(seg => {
+          const header = seg.querySelector('[data-field="header"]').value.trim();
+          const points = seg.querySelector('[data-field="points"]').value.trim();
+          const duration = seg.querySelector('[data-field="duration"]').value;
+          segments.push({ header, points, duration });
+        });
+
+        return {
+          epNumber: document.getElementById('ep-number').value,
+          epDate: document.getElementById('ep-date').value,
+          title: document.getElementById('ep-title').value.trim(),
+          hook: document.getElementById('intro-hook').value.trim(),
+          guestName: document.getElementById('guest-name').value.trim(),
+          guestBio: document.getElementById('guest-bio').value.trim(),
+          cta: document.getElementById('cta').value.trim(),
+          links: document.getElementById('show-links').value.trim(),
+          segments
+        };
+      }
+
+      function generateMarkdown(d) {
+        const lines = [];
+        const epLabel = d.epNumber ? 'Episode ' + d.epNumber + ': ' : '';
+        lines.push('# ' + epLabel + (d.title || 'Untitled Episode'));
+        if (d.epDate) lines.push('\n**Published:** ' + d.epDate);
+        lines.push('\n---\n');
+
+        if (d.hook) {
+          lines.push('## Intro\n');
+          lines.push(d.hook);
+          lines.push('\n---\n');
+        }
+
+        if (d.guestName) {
+          lines.push('## About the Guest\n');
+          lines.push('**' + d.guestName + '**');
+          if (d.guestBio) lines.push('\n' + d.guestBio);
+          lines.push('\n---\n');
+        }
+
+        if (d.segments.length > 0) {
+          lines.push('## Episode Outline\n');
+          d.segments.forEach((s, i) => {
+            const header = s.header || ('Segment ' + (i + 1));
+            lines.push('### ' + (i + 1) + '. ' + header + (s.duration ? ' (' + s.duration + ' min)' : ''));
+            if (s.points) {
+              s.points.split('\n').forEach(pt => {
+                const p = pt.trim();
+                if (p) lines.push('- ' + p);
+              });
+            }
+            lines.push('');
+          });
+          lines.push('---\n');
+        }
+
+        if (d.cta) {
+          lines.push('## Call to Action\n');
+          lines.push(d.cta);
+          lines.push('\n---\n');
+        }
+
+        if (d.links) {
+          lines.push('## Links & Resources\n');
+          d.links.split('\n').forEach(l => {
+            const t = l.trim();
+            if (t) lines.push('- ' + t);
+          });
+        }
+
+        return lines.join('\n');
+      }
+
+      function generatePlainText(d) {
+        const lines = [];
+        const epLabel = d.epNumber ? 'Episode ' + d.epNumber + ': ' : '';
+        lines.push((epLabel + (d.title || 'Untitled Episode')).toUpperCase());
+        lines.push('='.repeat(60));
+        if (d.epDate) lines.push('Published: ' + d.epDate);
+        lines.push('');
+
+        if (d.hook) {
+          lines.push('INTRO');
+          lines.push('-'.repeat(30));
+          lines.push(d.hook);
+          lines.push('');
+        }
+
+        if (d.guestName) {
+          lines.push('ABOUT THE GUEST');
+          lines.push('-'.repeat(30));
+          lines.push(d.guestName);
+          if (d.guestBio) lines.push(d.guestBio);
+          lines.push('');
+        }
+
+        if (d.segments.length > 0) {
+          lines.push('EPISODE OUTLINE');
+          lines.push('-'.repeat(30));
+          d.segments.forEach((s, i) => {
+            const header = s.header || ('Segment ' + (i + 1));
+            lines.push((i + 1) + '. ' + header + (s.duration ? ' [' + s.duration + ' min]' : ''));
+            if (s.points) {
+              s.points.split('\n').forEach(pt => {
+                const p = pt.trim();
+                if (p) lines.push('   • ' + p);
+              });
+            }
+            lines.push('');
+          });
+        }
+
+        if (d.cta) {
+          lines.push('CALL TO ACTION');
+          lines.push('-'.repeat(30));
+          lines.push(d.cta);
+          lines.push('');
+        }
+
+        if (d.links) {
+          lines.push('LINKS & RESOURCES');
+          lines.push('-'.repeat(30));
+          d.links.split('\n').forEach(l => {
+            const t = l.trim();
+            if (t) lines.push('• ' + t);
+          });
+        }
+
+        return lines.join('\n');
+      }
+
+      function download(content, filename) {
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      document.getElementById('preview-btn').addEventListener('click', () => {
+        const d = getFormData();
+        if (!d.title) { alert('Please enter an episode title.'); return; }
+        const md = generateMarkdown(d);
+        const previewEl = document.getElementById('preview-content');
+        previewEl.textContent = md;
+        document.getElementById('output-section').classList.remove('hidden');
+        document.getElementById('output-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      document.getElementById('export-md-btn').addEventListener('click', () => {
+        const d = getFormData();
+        const md = generateMarkdown(d);
+        const slug = (d.title || 'episode').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+        download(md, 'show-notes-' + slug + '.md');
+      });
+
+      document.getElementById('export-txt-btn').addEventListener('click', () => {
+        const d = getFormData();
+        const txt = generatePlainText(d);
+        const slug = (d.title || 'episode').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+        download(txt, 'show-notes-' + slug + '.txt');
+      });
+
+      document.getElementById('save-btn').addEventListener('click', () => {
+        const d = getFormData();
+        try {
+          localStorage.setItem('podcast_draft', JSON.stringify(d));
+          const btn = document.getElementById('save-btn');
+          const orig = btn.textContent;
+          btn.textContent = 'Saved!';
+          setTimeout(() => { btn.textContent = orig; }, 1500);
+        } catch (e) {
+          alert('Could not save draft.');
+        }
+      });
+
+      // Restore draft
+      try {
+        const saved = JSON.parse(localStorage.getItem('podcast_draft') || 'null');
+        if (saved) {
+          if (saved.epNumber) document.getElementById('ep-number').value = saved.epNumber;
+          if (saved.epDate) document.getElementById('ep-date').value = saved.epDate;
+          if (saved.title) document.getElementById('ep-title').value = saved.title;
+          if (saved.hook) document.getElementById('intro-hook').value = saved.hook;
+          if (saved.guestName) document.getElementById('guest-name').value = saved.guestName;
+          if (saved.guestBio) document.getElementById('guest-bio').value = saved.guestBio;
+          if (saved.cta) document.getElementById('cta').value = saved.cta;
+          if (saved.links) document.getElementById('show-links').value = saved.links;
+
+          if (saved.segments && saved.segments.length > 0) {
+            const container = document.getElementById('segments-container');
+            container.textContent = '';
+            segmentCount = 0;
+            saved.segments.forEach(s => {
+              addSegment();
+              const lastSeg = container.lastChild;
+              if (s.header) lastSeg.querySelector('[data-field="header"]').value = s.header;
+              if (s.points) lastSeg.querySelector('[data-field="points"]').value = s.points;
+              if (s.duration) lastSeg.querySelector('[data-field="duration"]').value = s.duration;
+            });
+          }
+
+          ['intro-hook', 'guest-bio', 'cta'].forEach(id => {
+            document.getElementById(id).dispatchEvent(new Event('input'));
+          });
+        }
+      } catch (e) {}
+
+    })();
+  </script>
+</body>
+</html>
